@@ -1,0 +1,18 @@
+name: EuroCup24
+version: '1.0'
+api-version: '1.20'
+authors: [Smoofy]
+main: de.smoofy.eurocup.EuroCup
+commands:
+  ban:
+    permission: eurocup.ban
+  fan:
+    aliases:
+      - support
+      - country
+  fly:
+    permission: eurocup.fly
+  mute:
+    permission: eurocup.mute
+  spawn:
+  speed:

@@ -1,0 +1,5 @@
+[versions]
+evelon = "1.0.40-SNAPSHOT"
+
+[libraries]
+evelon = { module = "dev.httpmarco.evelon:evelon-sql-mariadb", version.ref = "evelon" }
