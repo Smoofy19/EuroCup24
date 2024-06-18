@@ -24,6 +24,10 @@ class PlayerQuitListener : Listener {
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
         val player = EuroCup.INSTANCE.playerManager.euroCupPlayer(event.player)
+        if (player.chair != null) {
+            player.chair!!.remove()
+            player.chair = null
+        }
         event.quitMessage(Component.text("« ", NamedTextColor.GRAY).append(player.displayName()))
         EuroCup.INSTANCE.playerManager.update(player)
     }

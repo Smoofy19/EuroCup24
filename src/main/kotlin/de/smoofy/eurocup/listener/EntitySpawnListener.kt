@@ -1,5 +1,6 @@
 package de.smoofy.eurocup.listener
 
+import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntitySpawnEvent
@@ -20,6 +21,9 @@ class EntitySpawnListener : Listener {
 
     @EventHandler
     fun onSpawn(event: EntitySpawnEvent) {
+        if (event.entityType == EntityType.ARROW) {
+            return
+        }
         event.isCancelled = true
     }
 

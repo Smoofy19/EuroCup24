@@ -6,6 +6,7 @@ import de.smoofy.eurocup.utils.UUIDFetcher
 import dev.httpmarco.evelon.Row
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import org.bukkit.entity.Arrow
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -32,6 +33,9 @@ class EuroCupPlayer(val uuid: UUID) {
 
     @Row(ignore = true)
     var labyMod: Boolean
+
+    @Row(ignore = true)
+    var chair: Arrow? = null
 
     init {
         this.name = UUIDFetcher.name(this.uuid)
