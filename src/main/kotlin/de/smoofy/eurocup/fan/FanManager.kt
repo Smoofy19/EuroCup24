@@ -36,6 +36,6 @@ class FanManager {
         }
         val name = item.itemMeta.persistentDataContainer.get(this.key, PersistentDataType.STRING) ?: return null
 
-        return Team.country(name)
+        return Team.team(name)
     }
 }
