@@ -30,7 +30,11 @@ class FanInventory(fanManager: FanManager) {
 
     init {
         var slot = 0
-        Team.Group.entries.forEach { group -> inventory.setItem(slot++, SkullBuilder(group.texture).name(Component.text(group.name, NamedTextColor.RED)).build()) }
+        Team.Group.entries.forEach { group ->
+            if (group != Team.Group.NONE) {
+                inventory.setItem(slot++, SkullBuilder(group.texture).name(Component.text(group.name, NamedTextColor.RED)).build())
+            }
+        }
 
         slot = 18
         var column = 0
