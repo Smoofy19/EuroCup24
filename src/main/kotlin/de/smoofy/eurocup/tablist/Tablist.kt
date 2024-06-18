@@ -2,6 +2,7 @@ package de.smoofy.eurocup.tablist
 
 import com.google.common.collect.Maps
 import de.smoofy.eurocup.EuroCup
+import de.smoofy.eurocup.fan.Team
 import de.smoofy.eurocup.player.EuroCupPlayer
 import de.smoofy.eurocup.player.Rank
 import net.kyori.adventure.text.Component
@@ -43,7 +44,11 @@ class Tablist {
             if (team == null) {
                 team = scoreboard.registerNewTeam(teamName)
             }
-            team.suffix(EuroCup.miniMessage.deserialize(" <gray>[<red>${onlinePlayer.team.countryCode}<gray>]"))
+            var suffix = EuroCup.miniMessage.deserialize(" <gray>[<red>${onlinePlayer.team.countryCode}<gray>]")
+            if (onlinePlayer.team == Team.NONE) {
+                suffix = Component.empty()
+            }
+            team.suffix(suffix)
             team.addEntry(onlinePlayer.bukkitPlayer().name)
         }
     }
