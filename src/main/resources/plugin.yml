@@ -16,3 +16,7 @@ commands:
     permission: eurocup.mute
   spawn:
   speed:
+  vanish:
+    aliases:
+      - v
+    permission: eurocup.vanish

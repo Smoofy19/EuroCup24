@@ -59,6 +59,7 @@ class EuroCup : JavaPlugin() {
         getCommand("mute")?.setExecutor(MuteCommand())
         getCommand("spawn")?.setExecutor(SpawnCommand())
         getCommand("speed")?.setExecutor(SpeedCommand())
+        getCommand("vanish")?.setExecutor(VanishCommand())
     }
 
     private fun registerListener() {
