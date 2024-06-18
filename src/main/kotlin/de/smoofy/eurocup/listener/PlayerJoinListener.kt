@@ -1,14 +1,18 @@
 package de.smoofy.eurocup.listener
 
 import de.smoofy.eurocup.EuroCup
+import de.smoofy.eurocup.builder.ItemBuilder
+import de.smoofy.eurocup.utils.Keys
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerKickEvent
+import org.bukkit.persistence.PersistentDataType
 
 /*
  * Copyright ©
@@ -36,5 +40,10 @@ class PlayerJoinListener : Listener {
         Bukkit.getScheduler().runTaskLater(EuroCup.INSTANCE, { ->
             if (!player.labyMod) player.bukkitPlayer().kick(Component.text("You have to use LabyMod to play on this server!", NamedTextColor.RED), PlayerKickEvent.Cause.PLUGIN)
         }, 20L)
+
+        player.bukkitPlayer().inventory.setItem(8, ItemBuilder(Material.LIME_DYE)
+            .data(Keys.PLAYER_VISIBILITY, PersistentDataType.STRING, "all")
+            .name(EuroCup.miniMessage.deserialize("<green>All players visible <gray>(right click)"))
+            .build())
     }
 }

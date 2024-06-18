@@ -33,6 +33,8 @@ class EuroCup : JavaPlugin() {
     lateinit var tablist: Tablist
     lateinit var repository: Repository<EuroCupPlayer>
 
+    val vanishedPlayers: MutableList<EuroCupPlayer> = mutableListOf()
+
     override fun onEnable() {
         INSTANCE = this
 

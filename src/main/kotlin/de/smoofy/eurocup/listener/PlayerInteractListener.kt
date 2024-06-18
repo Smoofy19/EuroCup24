@@ -1,7 +1,10 @@
 package de.smoofy.eurocup.listener
 
 import de.smoofy.eurocup.EuroCup
+import de.smoofy.eurocup.builder.ItemBuilder
 import de.smoofy.eurocup.player.Rank
+import de.smoofy.eurocup.utils.Keys
+import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -14,6 +17,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.persistence.PersistentDataType
 
 /*
  * Copyright ©
@@ -34,6 +38,50 @@ class PlayerInteractListener : Listener {
         val player = EuroCup.INSTANCE.playerManager.euroCupPlayer(event.player)
         if (!player.hasPriority(Rank.ADMIN.priority) || player.bukkitPlayer().gameMode != GameMode.CREATIVE) {
             event.isCancelled = true
+        }
+        if (event.action == Action.RIGHT_CLICK_BLOCK || event.action == Action.RIGHT_CLICK_AIR) {
+            if (event.item != null) {
+                val value = event.item!!.itemMeta.persistentDataContainer.get(Keys.PLAYER_VISIBILITY.key, PersistentDataType.STRING)
+                if (value != null) {
+                    when (value) {
+                        "all" -> {
+                            player.bukkitPlayer().inventory.setItem(8, ItemBuilder(Material.RED_DYE)
+                                .data(Keys.PLAYER_VISIBILITY, PersistentDataType.STRING, "none")
+                                .name(EuroCup.miniMessage.deserialize("<red>No players visible <gray>(right click)"))
+                                .build())
+
+                            Bukkit.getOnlinePlayers().forEach { all -> player.bukkitPlayer().hidePlayer(EuroCup.INSTANCE, all) }
+                        }
+                        "none" -> {
+                            player.bukkitPlayer().inventory.setItem(8, ItemBuilder(Material.YELLOW_DYE)
+                                .data(Keys.PLAYER_VISIBILITY, PersistentDataType.STRING, "fans")
+                                .name(EuroCup.miniMessage.deserialize("<yellow>Fans visible <gray>(right click)"))
+                                .build())
+
+                            Bukkit.getOnlinePlayers().forEach {
+                                val all = EuroCup.INSTANCE.playerManager.euroCupPlayer(it)
+                                if (player.team == all.team && !EuroCup.INSTANCE.vanishedPlayers.contains(all)) {
+                                    player.bukkitPlayer().showPlayer(EuroCup.INSTANCE, it)
+                                }
+                            }
+                        }
+                        "fans" -> {
+                            player.bukkitPlayer().inventory.setItem(8, ItemBuilder(Material.LIME_DYE)
+                                .data(Keys.PLAYER_VISIBILITY, PersistentDataType.STRING, "all")
+                                .name(EuroCup.miniMessage.deserialize("<green>All players visible <gray>(right click)"))
+                                .build())
+
+                            Bukkit.getOnlinePlayers().forEach {
+                                val all = EuroCup.INSTANCE.playerManager.euroCupPlayer(it)
+                                if (!EuroCup.INSTANCE.vanishedPlayers.contains(all)) {
+                                    player.bukkitPlayer().showPlayer(EuroCup.INSTANCE, it)
+                                }
+                            }
+                        }
+                    }
+                    return
+                }
+            }
         }
         if (event.action != Action.RIGHT_CLICK_BLOCK || event.clickedBlock == null) {
             return
