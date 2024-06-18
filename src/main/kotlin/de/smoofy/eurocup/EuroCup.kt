@@ -7,6 +7,7 @@ import de.smoofy.eurocup.listener.*
 import de.smoofy.eurocup.player.EuroCupPlayer
 import de.smoofy.eurocup.player.EuroCupPlayerManager
 import de.smoofy.eurocup.tablist.Tablist
+import de.smoofy.eurocup.tournament.TournamentAPI
 import dev.httpmarco.evelon.MariaDbLayer
 import dev.httpmarco.evelon.Repository
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -50,6 +51,11 @@ class EuroCup : JavaPlugin() {
             world.setGameRule(GameRule.DO_WEATHER_CYCLE, false)
             world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false)
         }
+
+        tournamentAPI = TournamentAPI()
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, { ->
+            tournamentAPI.update()
+        }, 0L, 20*60*15L)
     }
 
     private fun registerCommands() {
@@ -81,6 +87,7 @@ class EuroCup : JavaPlugin() {
     companion object {
         lateinit var INSTANCE: EuroCup
         lateinit var miniMessage: MiniMessage
+        lateinit var tournamentAPI: TournamentAPI
         var GRADIENT = "<gradient:#000000:#FF0000:#FFCC00>"
         var PREFIX = "<dark_gray>[${GRADIENT}EuroCup</gradient><dark_gray>] "
     }
