@@ -1,7 +1,7 @@
 package de.smoofy.eurocup.player
 
 import de.smoofy.eurocup.EuroCup
-import de.smoofy.eurocup.fan.Country
+import de.smoofy.eurocup.fan.Team
 import de.smoofy.eurocup.utils.UUIDFetcher
 import dev.httpmarco.evelon.Row
 import net.kyori.adventure.text.Component
@@ -25,7 +25,7 @@ class EuroCupPlayer(val uuid: UUID) {
     var name: String
 
     var rank: Rank
-    var country: Country
+    var team: Team
 
     var banned: Boolean
     var muted: Boolean
@@ -36,16 +36,16 @@ class EuroCupPlayer(val uuid: UUID) {
     init {
         this.name = UUIDFetcher.name(this.uuid)
         this.rank = EuroCup.INSTANCE.repository.query().match("uuid", this.uuid.toString()).findFirst()?.rank ?: Rank.VIEWER
-        this.country = EuroCup.INSTANCE.repository.query().match("uuid", this.uuid.toString()).findFirst()?.country ?: Country.NONE
+        this.team = EuroCup.INSTANCE.repository.query().match("uuid", this.uuid.toString()).findFirst()?.team ?: Team.NONE
         this.banned = EuroCup.INSTANCE.repository.query().match("uuid", this.uuid.toString()).findFirst()?.banned ?: false
         this.muted = EuroCup.INSTANCE.repository.query().match("uuid", this.uuid.toString()).findFirst()?.muted ?: false
         this.labyMod = false
     }
 
-    constructor(uuid: UUID, name: String, rank: Rank, country: Country, banned: Boolean, muted: Boolean) : this(uuid) {
+    constructor(uuid: UUID, name: String, rank: Rank, team: Team, banned: Boolean, muted: Boolean) : this(uuid) {
         this.name = name
         this.rank = rank
-        this.country = country
+        this.team = team
         this.banned = banned
         this.muted = muted
     }

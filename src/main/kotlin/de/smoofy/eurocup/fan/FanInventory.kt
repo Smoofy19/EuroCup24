@@ -30,12 +30,12 @@ class FanInventory(fanManager: FanManager) {
 
     init {
         var slot = 0
-        Country.Group.entries.forEach { group -> inventory.setItem(slot++, SkullBuilder(group.texture).name(Component.text(group.name, NamedTextColor.RED)).build()) }
+        Team.Group.entries.forEach { group -> inventory.setItem(slot++, SkullBuilder(group.texture).name(Component.text(group.name, NamedTextColor.RED)).build()) }
 
         slot = 18
         var column = 0
-        for (country in Country.entries) {
-            if (country == Country.NONE) slot = 8
+        for (country in Team.entries) {
+            if (country == Team.NONE) slot = 8
             inventory.setItem(slot, SkullBuilder(country.texture).name(Component.text(country.name, NamedTextColor.RED))
                 .data(fanManager.key, PersistentDataType.STRING, country.name)
                 .build())
@@ -57,8 +57,8 @@ class FanInventory(fanManager: FanManager) {
     fun inventory(player: EuroCupPlayer): Inventory {
         val inventory = Bukkit.createInventory(Holder(), 9*6, EuroCup.miniMessage.deserialize("<red>Choose your favorite team!"))
         inventory.contents = this.inventory.contents.clone()
-        inventory.setItem(53, SkullBuilder(player.country.texture)
-            .name(Component.text(player.country.name, NamedTextColor.RED))
+        inventory.setItem(53, SkullBuilder(player.team.texture)
+            .name(Component.text(player.team.name, NamedTextColor.RED))
             .lore(Component.text("Your current favorite team", NamedTextColor.GREEN)).build())
 
         return inventory

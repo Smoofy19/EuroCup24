@@ -27,7 +27,7 @@ class FanManager {
         FanListener(this)
     }
 
-    fun country(item: ItemStack): Country? {
+    fun country(item: ItemStack): Team? {
         if (item.itemMeta == null) {
             return null
         }
@@ -36,6 +36,6 @@ class FanManager {
         }
         val name = item.itemMeta.persistentDataContainer.get(this.key, PersistentDataType.STRING) ?: return null
 
-        return Country.country(name)
+        return Team.country(name)
     }
 }

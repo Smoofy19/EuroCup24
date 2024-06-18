@@ -1,7 +1,7 @@
 package de.smoofy.eurocup.player
 
 import de.smoofy.eurocup.EuroCup
-import de.smoofy.eurocup.fan.Country
+import de.smoofy.eurocup.fan.Team
 import de.smoofy.eurocup.utils.UUIDFetcher
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -28,7 +28,7 @@ class EuroCupPlayerManager {
             return
         }
         EuroCup.INSTANCE.repository.query().create(EuroCupPlayer(
-            uuid, UUIDFetcher.name(uuid), Rank.VIEWER, Country.NONE, banned = banned, muted = muted)
+            uuid, UUIDFetcher.name(uuid), Rank.VIEWER, Team.NONE, banned = banned, muted = muted)
         )
     }
 

@@ -46,7 +46,7 @@ class FanListener(private val fanManager: FanManager) : Listener {
         val player = EuroCup.INSTANCE.playerManager.euroCupPlayer(event.whoClicked as Player)
         val country = fanManager.country(item)
         if (country != null) {
-            player.country = country
+            player.team = country
             EuroCup.INSTANCE.tablist.set(player)
         }
         player.bukkitPlayer().closeInventory()

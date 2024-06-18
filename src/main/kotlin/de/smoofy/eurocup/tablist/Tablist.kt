@@ -43,7 +43,7 @@ class Tablist {
             if (team == null) {
                 team = scoreboard.registerNewTeam(teamName)
             }
-            team.suffix(EuroCup.miniMessage.deserialize(" <gray>[<red>${onlinePlayer.country.countryCode}<gray>]"))
+            team.suffix(EuroCup.miniMessage.deserialize(" <gray>[<red>${onlinePlayer.team.countryCode}<gray>]"))
             team.addEntry(onlinePlayer.bukkitPlayer().name)
         }
     }

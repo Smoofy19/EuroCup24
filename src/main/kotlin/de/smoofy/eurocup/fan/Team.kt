@@ -12,7 +12,7 @@ package de.smoofy.eurocup.fan
 
  */
 
-enum class Country(val countryCode: String, val texture: String) {
+enum class Team(val countryCode: String, val texture: String) {
 
     GERMANY("GER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU3ODk5YjQ4MDY4NTg2OTdlMjgzZjA4NGQ5MTczZmU0ODc4ODY0NTM3NzQ2MjZiMjRiZDhjZmVjYzc3YjNmIn19fQ==", ),
     SWITZERLAND("SUI", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzVjMjdlZDliOGNmNmYzNzgyODE1MGRmMDJjNDg2Nzk5ODlhZTcwODI5ODY2Y2U2OThjMjVhMzdjNjY2ZGUyIn19fQ=="),
@@ -47,7 +47,7 @@ enum class Country(val countryCode: String, val texture: String) {
     NONE("", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmFmZWMzYzdmYWIyYTM3MjkwNWZhM2ZjMWZiMjI4ZTc4M2JiOTNhNTNlNmQzMmU0NWViZGI0YTAyMThmY2NhIn19fQ==");
 
     companion object {
-        fun country(name: String): Country {
+        fun country(name: String): Team {
             return entries.firstOrNull { it.name == name } ?: NONE
         }
     }
