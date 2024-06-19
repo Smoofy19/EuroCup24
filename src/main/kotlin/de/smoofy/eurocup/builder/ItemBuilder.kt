@@ -3,6 +3,7 @@ package de.smoofy.eurocup.builder
 import de.smoofy.eurocup.utils.Keys
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
@@ -19,7 +20,7 @@ import org.bukkit.persistence.PersistentDataType
 /**
 
  */
-class ItemBuilder(val material: Material) {
+class ItemBuilder(material: Material) {
 
     private val itemStack: ItemStack
     private val itemMeta: ItemMeta
@@ -29,9 +30,15 @@ class ItemBuilder(val material: Material) {
         this.itemMeta = itemStack.itemMeta
     }
 
+    constructor(itemStack: ItemStack) : this(itemStack.type)
+
     fun name(name: Component): ItemBuilder {
         this.itemMeta.displayName(name)
         return this
+    }
+
+    fun noName(): ItemBuilder {
+        return this.name(Component.empty())
     }
 
     fun lore(line: Component): ItemBuilder {
@@ -49,6 +56,11 @@ class ItemBuilder(val material: Material) {
 
     fun lore(vararg lore: Component): ItemBuilder {
         lore.forEach { this.lore(it) }
+        return this
+    }
+
+    fun data(key: NamespacedKey, type: PersistentDataType<String, String>, value: String): ItemBuilder {
+        this.itemMeta.persistentDataContainer.set(key, type, value)
         return this
     }
 
