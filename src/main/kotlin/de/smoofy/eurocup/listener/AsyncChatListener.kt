@@ -41,7 +41,7 @@ class AsyncChatListener : Listener {
             message = EuroCup.miniMessage.deserialize(EuroCup.miniMessage.serialize(message).replace("\\", ""))
         }
         if (PlainTextComponentSerializer.plainText().serialize(message).startsWith("@fans ") && player.team != Team.NONE) {
-            prefix = EuroCup.miniMessage.deserialize("<gray>[${EuroCup.GRADIENT}FanChat</gradient><gray>] ")
+            prefix = EuroCup.miniMessage.deserialize("<gray>[<red>FanChat<gray>] ")
             message = message.replaceText(TextReplacementConfig.builder().match("@fans ").once().replacement("").build())
 
             event.viewers().removeIf { audience -> audience is Player &&
@@ -50,7 +50,7 @@ class AsyncChatListener : Listener {
             }
         }
         if (player.team != Team.NONE) {
-            suffix = EuroCup.miniMessage.deserialize(" <gray>[<red>${player.team.countryCode}<gray>]")
+            suffix = EuroCup.miniMessage.deserialize(" <gray>[${player.team.gradient}${player.team.countryCode}</gradient><gray>]")
         }
         event.renderer { _, _, _, _ ->
             Component.text().append(prefix, player.displayName(), suffix, Component.text(": ", NamedTextColor.GRAY), message).build()
