@@ -1,4 +1,4 @@
-package de.smoofy.eurocup.commands
+package de.smoofy.eurocup.tournament.match
 
 import de.smoofy.eurocup.EuroCup
 import org.bukkit.command.Command
@@ -25,7 +25,7 @@ class MatchesCommand : CommandExecutor {
             return true
         }
         val player = EuroCup.INSTANCE.playerManager.euroCupPlayer(commandSender)
-
+        player.bukkitPlayer().openInventory(MatchesInventory(1).groupInventory())
         return true
     }
 }
