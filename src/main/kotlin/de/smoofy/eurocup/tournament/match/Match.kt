@@ -1,6 +1,6 @@
 package de.smoofy.eurocup.tournament.match
 
-import java.util.Date
+import de.smoofy.eurocup.fan.Team
 
 
 /*
@@ -16,10 +16,10 @@ import java.util.Date
  */
 class Match(
     val matchId: Int,
-    val time: Date,
+    val time: String,
     val phase: String,
-    val teamOne: String,
-    val teamTwo: String,
+    val teamOne: Team,
+    val teamTwo: Team,
     val matchResult: MatchResult,
     val goals: List<Goal>,
     val location: Location
