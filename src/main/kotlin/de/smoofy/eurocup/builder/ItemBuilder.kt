@@ -59,12 +59,12 @@ class ItemBuilder(material: Material) {
         return this
     }
 
-    fun data(key: NamespacedKey, type: PersistentDataType<String, String>, value: String): ItemBuilder {
+    fun <P, C : Any> data(key: NamespacedKey, type: PersistentDataType<P, C>, value: C): ItemBuilder {
         this.itemMeta.persistentDataContainer.set(key, type, value)
         return this
     }
 
-    fun data(key: Keys, type: PersistentDataType<String, String>, value: String): ItemBuilder {
+    fun <P, C : Any> data(key: Keys, type: PersistentDataType<P, C>, value: C): ItemBuilder {
         this.itemMeta.persistentDataContainer.set(key.key, type, value)
         return this
     }
