@@ -12,7 +12,9 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.StandardCharsets
-import java.util.Date
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 /*
@@ -30,9 +32,15 @@ class TournamentAPI {
 
     private val goalGetters: MutableMap<String, GoalGetter> = mutableMapOf()
 
-    var matchesCache: List<Match> = mutableListOf()
-    var goalGettersCache: List<GoalGetter> = mutableListOf()
-    var tabelTeamsCache: List<TabelTeam> = mutableListOf()
+    var matchesCache: List<Match>
+    var goalGettersCache: List<GoalGetter>
+    var tabelTeamsCache: List<TabelTeam>
+
+    init {
+        this.matchesCache = this.matches()
+        this.goalGettersCache = this.goalGetters()
+        this.tabelTeamsCache = this.tabelTeams()
+    }
 
     fun match(matchID: Int): Match {
         val jsonObject = JsonParser.parseString(this.request("getmatchdata/$matchID")) as JsonObject
@@ -49,29 +57,31 @@ class TournamentAPI {
         for (goalElement in jsonObject.get("goals").asJsonArray) {
             val goalObject = goalElement.asJsonObject
             goals.add(Match.Goal(
-                goalObject.get("scoreTeam1").asInt,
-                goalObject.get("scoreTeam2").asInt,
-                goalObject.get("matchMinute").asInt,
-                goalObject.get("goalGetterName").asString,
-                goalObject.get("isPenalty").asBoolean,
-                goalObject.get("isOwnGoal").asBoolean,
-                goalObject.get("isOvertime").asBoolean
+                if (this.jsonNull(goalObject, "scoreTeam1")) -1 else goalObject.get("scoreTeam1").asInt,
+                if (this.jsonNull(goalObject, "scoreTeam2")) -1 else goalObject.get("scoreTeam2").asInt,
+                if (this.jsonNull(goalObject, "matchMinute")) -1 else goalObject.get("matchMinute").asInt,
+                if (this.jsonNull(goalObject, "goalGetterName")) "" else goalObject.get("goalGetterName").asString,
+                if (this.jsonNull(goalObject, "isPenalty")) false else goalObject.get("isPenalty").asBoolean,
+                if (this.jsonNull(goalObject, "isOwnGoal")) false else goalObject.get("isOwnGoal").asBoolean,
+                if (this.jsonNull(goalObject, "isOvertime")) false else goalObject.get("isOvertime").asBoolean
             ))
         }
 
         val locationObject = jsonObject.get("location").asJsonObject
         val location = Match.Location(
-            locationObject.get("locationCity").asString,
-            if (jsonObject.get("locationStadium") == null || jsonObject.get("locationStadium").isJsonNull) "" else locationObject.get("locationStadium").asString,
-            if (jsonObject.get("numberOfViewers") == null || jsonObject.get("numberOfViewers").isJsonNull) -1 else jsonObject.get("numberOfViewers").asInt
+            if (this.jsonNull(locationObject, "locationCity")) "" else locationObject.get("locationCity").asString,
+            if (this.jsonNull(locationObject, "locationStadium")) "" else locationObject.get("locationStadium").asString,
+            if (this.jsonNull(jsonObject, "numberOfViewers")) 0 else jsonObject.get("numberOfViewers").asInt
         )
 
         val match = Match(
-            jsonObject.get("matchID").asInt,
-            Date(),
-            jsonObject.get("group").asJsonObject.get("groupName").asString,
-            jsonObject.get("team1").asJsonObject.get("teamName").asString,
-            jsonObject.get("team2").asJsonObject.get("teamName").asString,
+            if (this.jsonNull(jsonObject, "matchID")) -1 else jsonObject.get("matchID").asInt,
+            if (this.jsonNull(jsonObject, "matchDateTime")) "" else ZonedDateTime.parse(jsonObject.get("matchDateTime").asString + "Z",
+                DateTimeFormatter.ISO_ZONED_DATE_TIME).format(DateTimeFormatter.ofPattern("dd. MMMM yyyy HH:mm", Locale.ENGLISH)),
+
+            if (this.jsonNull(jsonObject.get("group").asJsonObject, "groupName")) "" else jsonObject.get("group").asJsonObject.get("groupName").asString,
+            Team.team(if (this.jsonNull(jsonObject.get("team1").asJsonObject, "teamId")) -1 else jsonObject.get("team1").asJsonObject.get("teamId").asInt),
+            Team.team(if (this.jsonNull(jsonObject.get("team2").asJsonObject, "teamId")) -1 else jsonObject.get("team2").asJsonObject.get("teamId").asInt),
             matchResult,
             goals,
             location
@@ -165,6 +175,10 @@ class TournamentAPI {
         this.matchesCache = this.matches()
         this.goalGettersCache = this.goalGetters()
         this.tabelTeamsCache = this.tabelTeams()
+    }
+
+    private fun jsonNull(jsonObject: JsonObject, key: String): Boolean {
+        return jsonObject.get(key) == null || jsonObject.get(key).isJsonNull
     }
 
     private fun request(endpoint: String): String? {
