@@ -34,10 +34,14 @@ class MatchesListener : Listener {
         if (event.clickedInventory!!.holder == null) {
             return
         }
-        if (event.clickedInventory!!.holder !is MatchesInventory.Holder) {
+        if (event.clickedInventory!!.holder !is MatchesInventory.Holder && event.clickedInventory!!.holder !is MatchInventory.Holder) {
             return
         }
         event.isCancelled = true
+        if (event.clickedInventory!!.holder is MatchInventory.Holder) {
+            return
+        }
+
         val player = event.whoClicked as Player
 
         val item = event.currentItem ?: return
@@ -49,8 +53,7 @@ class MatchesListener : Listener {
         val persistentDataContainer = item.itemMeta.persistentDataContainer
         if (persistentDataContainer.has(Keys.MATCH.key)) {
             val match = EuroCup.tournamentAPI.match(persistentDataContainer.get(Keys.MATCH.key, PersistentDataType.INTEGER)!!) ?: return
-            player.sendMessage("Open match inventory ${match.matchId}")
-            // TODO: open match inventory
+            player.openInventory(MatchInventory(match).inventory())
             return
         }
     }
