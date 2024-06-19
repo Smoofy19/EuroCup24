@@ -2,13 +2,10 @@ package de.smoofy.eurocup.builder
 
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
-import net.kyori.adventure.text.Component
 import org.bukkit.Material
-import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.SkullMeta
-import org.bukkit.persistence.PersistentDataType
 import java.util.*
 
 /*
@@ -34,21 +31,6 @@ class SkullBuilder(texture: String) {
         val method = meta.javaClass.getDeclaredMethod("setProfile", GameProfile::class.java)
         method.isAccessible = true
         method.invoke(meta, this.profile(texture))
-    }
-
-    fun name(name: Component): SkullBuilder {
-        meta.displayName(name)
-        return this
-    }
-
-    fun lore(lore: Component): SkullBuilder {
-        this.meta.lore(listOf(lore))
-        return this
-    }
-
-    fun data(key: NamespacedKey, type: PersistentDataType<String, String>, value: String): SkullBuilder {
-        this.meta.persistentDataContainer.set(key, type, value)
-        return this
     }
 
     fun build(): ItemStack {
