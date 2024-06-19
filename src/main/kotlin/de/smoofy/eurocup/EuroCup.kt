@@ -8,6 +8,7 @@ import de.smoofy.eurocup.player.EuroCupPlayer
 import de.smoofy.eurocup.player.EuroCupPlayerManager
 import de.smoofy.eurocup.tablist.Tablist
 import de.smoofy.eurocup.tournament.TournamentAPI
+import de.smoofy.eurocup.tournament.match.MatchesCommand
 import dev.httpmarco.evelon.MariaDbLayer
 import dev.httpmarco.evelon.Repository
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -64,6 +65,7 @@ class EuroCup : JavaPlugin() {
         getCommand("ban")?.setExecutor(BanCommand())
         getCommand("fan")?.setExecutor(FanCommand())
         getCommand("fly")?.setExecutor(FlyCommand())
+        getCommand("matches")?.setExecutor(MatchesCommand())
         getCommand("mute")?.setExecutor(MuteCommand())
         getCommand("spawn")?.setExecutor(SpawnCommand())
         getCommand("speed")?.setExecutor(SpeedCommand())
