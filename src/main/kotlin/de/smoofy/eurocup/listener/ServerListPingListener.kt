@@ -26,7 +26,7 @@ class ServerListPingListener : Listener {
         var motd = "                 <gradient:#000000:#FF0000:#FFCC00><b>EuroCup 24</b></gradient> <dark_gray>- <yellow>[1.8-1.20.6]"
         motd = when (id) {
             0 -> "$motd\n     <green>Watch the EuroCup matches with your friends!"
-            1 -> "$motd\n               <aqua>/fan<gray>｜<aqua>/speed<gray>｜<aqua>/spawn<gray>｜<aqua>@fans<gray>"
+            1 -> "$motd\n       <aqua>/matches<gray>｜<aqua>/spawn<gray>｜<aqua>/speed<gray>｜<aqua>/fan<gray>｜<aqua>@fans<gray>"
             else -> "$motd\n                <#7289da>https://discord.gg/DUAWyCFZyQ"
         }
         event.motd(EuroCup.miniMessage.deserialize(motd))
