@@ -1,5 +1,8 @@
 package de.smoofy.eurocup.fan
 
+import de.smoofy.eurocup.builder.SkullBuilder
+import org.bukkit.inventory.ItemStack
+
 /*
  * Copyright ©
  * @author - Smoofy
@@ -65,5 +68,28 @@ enum class Team(val teamId: Int, val countryCode: String, val group: Group, val 
         E("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJiMjczN2VjYmY5MTBlZmUzYjI2N2RiN2Q0YjMyN2YzNjBhYmM3MzJjNzdiZDBlNGVmZjFkNTEwY2RlZiJ9fX0="),
         F("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE4M2JhYjUwYTMyMjQwMjQ4ODZmMjUyNTFkMjRiNmRiOTNkNzNjMjQzMjU1OWZmNDllNDU5YjRjZDZhIn19fQ=="),
         NONE("");
+    }
+
+    class Cache {
+
+        init {
+            for (team in entries) {
+                skullCache[team] = SkullBuilder(team.texture).build()
+                groupCache[team.group] = SkullBuilder(team.group.texture).build()
+            }
+        }
+
+        companion object {
+            private val skullCache: MutableMap<Team, ItemStack> = mutableMapOf()
+            private val groupCache: MutableMap<Group, ItemStack> = mutableMapOf()
+
+            fun skull(team: Team): ItemStack {
+                return skullCache[team]!!
+            }
+
+            fun group(group: Group): ItemStack {
+                return groupCache[group]!!
+            }
+        }
     }
 }

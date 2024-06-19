@@ -1,7 +1,7 @@
 package de.smoofy.eurocup.fan
 
 import de.smoofy.eurocup.EuroCup
-import de.smoofy.eurocup.builder.SkullBuilder
+import de.smoofy.eurocup.builder.ItemBuilder
 import de.smoofy.eurocup.player.EuroCupPlayer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -32,16 +32,18 @@ class FanInventory(fanManager: FanManager) {
         var slot = 0
         Team.Group.entries.forEach { group ->
             if (group != Team.Group.NONE) {
-                inventory.setItem(slot++, SkullBuilder(group.texture).name(Component.text(group.name, NamedTextColor.RED)).build())
+                inventory.setItem(slot++, ItemBuilder(Team.Cache.group(group))
+                    .name(Component.text(group.name, NamedTextColor.RED)).build())
             }
         }
 
         slot = 18
         var column = 0
-        for (country in Team.entries) {
-            if (country == Team.NONE) slot = 8
-            inventory.setItem(slot, SkullBuilder(country.texture).name(Component.text(country.name, NamedTextColor.RED))
-                .data(fanManager.key, PersistentDataType.STRING, country.name)
+        for (team in Team.entries) {
+            if (team == Team.NONE) slot = 8
+            inventory.setItem(slot, ItemBuilder(Team.Cache.skull(team))
+                .name(Component.text(team.name, NamedTextColor.RED))
+                .data(fanManager.key, PersistentDataType.STRING, team.name)
                 .build())
 
             slot += 9
@@ -61,7 +63,7 @@ class FanInventory(fanManager: FanManager) {
     fun inventory(player: EuroCupPlayer): Inventory {
         val inventory = Bukkit.createInventory(Holder(), 9*6, EuroCup.miniMessage.deserialize("<red>Choose your favorite team!"))
         inventory.contents = this.inventory.contents.clone()
-        inventory.setItem(53, SkullBuilder(player.team.texture)
+        inventory.setItem(53, ItemBuilder(Team.Cache.skull(player.team))
             .name(Component.text(player.team.name, NamedTextColor.RED))
             .lore(Component.text("Your current favorite team", NamedTextColor.GREEN)).build())
 
