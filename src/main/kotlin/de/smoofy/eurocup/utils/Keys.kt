@@ -17,5 +17,8 @@ import org.bukkit.NamespacedKey
  */
 enum class Keys(val key: NamespacedKey) {
 
-    PLAYER_VISIBILITY(NamespacedKey.fromString("player_visibility", EuroCup.INSTANCE)!!)
+    PLAYER_VISIBILITY(NamespacedKey.fromString("player_visibility", EuroCup.INSTANCE)!!),
+    MATCH(NamespacedKey.fromString("match", EuroCup.INSTANCE)!!),
+    NEXT_PAGE(NamespacedKey.fromString("next_page", EuroCup.INSTANCE)!!),
+    PREVIOUS_PAGE(NamespacedKey.fromString("previous_page", EuroCup.INSTANCE)!!)
 }
