@@ -2,6 +2,7 @@ package de.smoofy.eurocup
 
 import de.smoofy.eurocup.commands.*
 import de.smoofy.eurocup.fan.FanCommand
+import de.smoofy.eurocup.fan.Team
 import de.smoofy.eurocup.labymod.PluginMessageReceivedListener
 import de.smoofy.eurocup.listener.*
 import de.smoofy.eurocup.player.EuroCupPlayer
@@ -44,6 +45,8 @@ class EuroCup : JavaPlugin() {
         this.playerManager = EuroCupPlayerManager()
         this.tablist = Tablist()
         this.repository = Repository.build(EuroCupPlayer::class.java).withLayer(MariaDbLayer::class.java).build()
+
+        Team.Cache().init()
 
         this.registerCommands()
         this.registerListener()
