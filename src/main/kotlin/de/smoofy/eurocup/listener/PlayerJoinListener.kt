@@ -41,9 +41,10 @@ class PlayerJoinListener : Listener {
             if (!player.labyMod) player.bukkitPlayer().kick(Component.text("You have to use LabyMod to play on this server!", NamedTextColor.RED), PlayerKickEvent.Cause.PLUGIN)
         }, 20L)
 
+        player.bukkitPlayer().inventory.clear()
         player.bukkitPlayer().inventory.setItem(8, ItemBuilder(Material.LIME_DYE)
             .data(Keys.PLAYER_VISIBILITY, PersistentDataType.STRING, "all")
-            .name(EuroCup.miniMessage.deserialize("<green>All players visible <gray>(right click)"))
+            .name("<green>All players visible <gray>(right click)")
             .build())
     }
 }

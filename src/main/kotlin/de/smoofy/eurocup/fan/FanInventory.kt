@@ -1,10 +1,9 @@
 package de.smoofy.eurocup.fan
 
 import de.smoofy.eurocup.EuroCup
-import de.smoofy.eurocup.builder.ItemBuilder
+import de.smoofy.eurocup.builder.InventoryBuilder
 import de.smoofy.eurocup.player.EuroCupPlayer
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.Inventory
@@ -26,23 +25,25 @@ import org.bukkit.persistence.PersistentDataType
  */
 class FanInventory(fanManager: FanManager) {
 
-    private val inventory = Bukkit.createInventory(Holder(), 9*6, EuroCup.miniMessage.deserialize("<red>Choose your favorite team!"))
+    private val inventory = InventoryBuilder(Holder(), 9*6, "<red>Choose your favorite team!").build()
 
     init {
         var slot = 0
         Team.Group.entries.forEach { group ->
             if (group != Team.Group.NONE) {
-                inventory.setItem(slot++, ItemBuilder(Team.Cache.group(group))
-                    .name(Component.text(group.name, NamedTextColor.RED)).build())
+                inventory.setItem(slot++, Team.Cache.group(group)
+                    .name("<yellow>Group ${group.name}").build())
             }
         }
 
         slot = 18
         var column = 0
         for (team in Team.entries) {
-            if (team == Team.NONE) slot = 8
-            inventory.setItem(slot, ItemBuilder(Team.Cache.skull(team))
-                .name(EuroCup.miniMessage.deserialize(team.gradient + team.name))
+            if (team == Team.NONE) {
+                slot = 8
+            }
+            inventory.setItem(slot, Team.Cache.skull(team)
+                .name(team.gradient + team.name)
                 .data(fanManager.key, PersistentDataType.STRING, team.name)
                 .build())
 
@@ -63,9 +64,9 @@ class FanInventory(fanManager: FanManager) {
     fun inventory(player: EuroCupPlayer): Inventory {
         val inventory = Bukkit.createInventory(Holder(), 9*6, EuroCup.miniMessage.deserialize("<red>Choose your favorite team!"))
         inventory.contents = this.inventory.contents.clone()
-        inventory.setItem(53, ItemBuilder(Team.Cache.skull(player.team))
-            .name(EuroCup.miniMessage.deserialize(player.team.gradient + player.team.name))
-            .lore(Component.text("Your current favorite team", NamedTextColor.GREEN)).build())
+        inventory.setItem(53, Team.Cache.skull(player.team)
+            .name(player.team.gradient + player.team.name)
+            .lore("<green>Your current favorite team", true).build())
 
         return inventory
     }

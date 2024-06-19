@@ -1,5 +1,6 @@
 package de.smoofy.eurocup.builder
 
+import de.smoofy.eurocup.EuroCup
 import de.smoofy.eurocup.utils.Keys
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
@@ -32,29 +33,33 @@ class ItemBuilder(material: Material) {
 
     constructor(itemStack: ItemStack) : this(itemStack.type)
 
-    fun name(name: Component): ItemBuilder {
-        this.itemMeta.displayName(name)
+    fun name(name: String): ItemBuilder {
+        this.itemMeta.displayName(EuroCup.miniMessage.deserialize(name))
         return this
     }
 
     fun noName(): ItemBuilder {
-        return this.name(Component.empty())
+        return this.name("")
     }
 
-    fun lore(line: Component): ItemBuilder {
+    fun lore(line: String): ItemBuilder {
+        return this.lore(line, false)
+    }
+
+    fun lore(line: String, clear: Boolean): ItemBuilder {
         var lore: MutableList<Component>? = mutableListOf()
-        if (this.itemMeta.hasLore()) {
+        if (!clear && this.itemMeta.hasLore()) {
             lore = this.itemMeta.lore()
         }
         if (lore == null) {
             return this
         }
-        lore.add(line)
+        lore.add(EuroCup.miniMessage.deserialize(line))
         this.itemMeta.lore(lore)
         return this
     }
 
-    fun lore(vararg lore: Component): ItemBuilder {
+    fun lore(vararg lore: String): ItemBuilder {
         lore.forEach { this.lore(it) }
         return this
     }

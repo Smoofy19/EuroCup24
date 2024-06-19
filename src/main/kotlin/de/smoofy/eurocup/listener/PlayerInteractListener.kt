@@ -47,7 +47,7 @@ class PlayerInteractListener : Listener {
                         "all" -> {
                             player.bukkitPlayer().inventory.setItem(8, ItemBuilder(Material.RED_DYE)
                                 .data(Keys.PLAYER_VISIBILITY, PersistentDataType.STRING, "none")
-                                .name(EuroCup.miniMessage.deserialize("<red>No players visible <gray>(right click)"))
+                                .name("<red>No players visible <gray>(right click)")
                                 .build())
 
                             Bukkit.getOnlinePlayers().forEach { all -> player.bukkitPlayer().hidePlayer(EuroCup.INSTANCE, all) }
@@ -55,7 +55,7 @@ class PlayerInteractListener : Listener {
                         "none" -> {
                             player.bukkitPlayer().inventory.setItem(8, ItemBuilder(Material.YELLOW_DYE)
                                 .data(Keys.PLAYER_VISIBILITY, PersistentDataType.STRING, "fans")
-                                .name(EuroCup.miniMessage.deserialize("<yellow>Fans visible <gray>(right click)"))
+                                .name("<yellow>Fans visible <gray>(right click)")
                                 .build())
 
                             Bukkit.getOnlinePlayers().forEach {
@@ -68,7 +68,7 @@ class PlayerInteractListener : Listener {
                         "fans" -> {
                             player.bukkitPlayer().inventory.setItem(8, ItemBuilder(Material.LIME_DYE)
                                 .data(Keys.PLAYER_VISIBILITY, PersistentDataType.STRING, "all")
-                                .name(EuroCup.miniMessage.deserialize("<green>All players visible <gray>(right click)"))
+                                .name("<green>All players visible <gray>(right click)")
                                 .build())
 
                             Bukkit.getOnlinePlayers().forEach {
