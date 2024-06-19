@@ -1,7 +1,7 @@
 package de.smoofy.eurocup.fan
 
+import de.smoofy.eurocup.builder.ItemBuilder
 import de.smoofy.eurocup.builder.SkullBuilder
-import org.bukkit.inventory.ItemStack
 
 /*
  * Copyright ©
@@ -47,7 +47,7 @@ enum class Team(val teamId: Int, val countryCode: String, val gradient: String, 
     CZECH_REPUBLIC(141, "CZE", "<gradient:#11457E:#FFFFFF:#D7141A>", Group.F, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDgxNTJiNzMzNGQ3ZWNmMzM1ZTQ3YTRmMzVkZWZiZDJlYjY5NTdmYzdiZmU5NDIxMjY0MmQ2MmY0NmU2MWUifX19"),
     GEORGIA(6239, "GEO", "<gradient:#DA291C:#FFFFFF>", Group.F, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGYwNWY5OWUzNDMzMDNjMzVhOGIwYjY4ZTRiY2M2YzM4Yzk0ZTk5MzE5YjlhZGZiYWUyYTEzODU5MTU4NGM4MCJ9fX0="),
 
-    NONE(-1, "", "<yellow>", Group.NONE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmFmZWMzYzdmYWIyYTM3MjkwNWZhM2ZjMWZiMjI4ZTc4M2JiOTNhNTNlNmQzMmU0NWViZGI0YTAyMThmY2NhIn19fQ==");
+    NONE(-1, "", "<red>", Group.NONE, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmFmZWMzYzdmYWIyYTM3MjkwNWZhM2ZjMWZiMjI4ZTc4M2JiOTNhNTNlNmQzMmU0NWViZGI0YTAyMThmY2NhIn19fQ==");
 
     companion object {
         fun team(name: String): Team {
@@ -74,22 +74,24 @@ enum class Team(val teamId: Int, val countryCode: String, val gradient: String, 
 
         fun init() {
             for (team in entries) {
-                skullCache[team] = SkullBuilder(team.texture).build()
+                skullCache[team] = ItemBuilder(SkullBuilder(team.texture).build())
+                    .name(team.gradient + team.name.replace("_", ""))
             }
             for (group in Group.entries) {
-                groupCache[group] = SkullBuilder(group.texture).build()
+                groupCache[group] = ItemBuilder(SkullBuilder(group.texture).build())
+                    .name("<yellow>${group.name}")
             }
         }
 
         companion object {
-            private val skullCache: MutableMap<Team, ItemStack> = mutableMapOf()
-            private val groupCache: MutableMap<Group, ItemStack> = mutableMapOf()
+            private val skullCache: MutableMap<Team, ItemBuilder> = mutableMapOf()
+            private val groupCache: MutableMap<Group, ItemBuilder> = mutableMapOf()
 
-            fun skull(team: Team): ItemStack {
+            fun skull(team: Team): ItemBuilder {
                 return skullCache[team]!!
             }
 
-            fun group(group: Group): ItemStack {
+            fun group(group: Group): ItemBuilder {
                 return groupCache[group]!!
             }
         }
