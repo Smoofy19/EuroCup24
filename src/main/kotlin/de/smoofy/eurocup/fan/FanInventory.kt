@@ -42,7 +42,7 @@ class FanInventory(fanManager: FanManager) {
         for (team in Team.entries) {
             if (team == Team.NONE) slot = 8
             inventory.setItem(slot, ItemBuilder(Team.Cache.skull(team))
-                .name(Component.text(team.name, NamedTextColor.RED))
+                .name(EuroCup.miniMessage.deserialize(team.gradient + team.name + "</gradient>"))
                 .data(fanManager.key, PersistentDataType.STRING, team.name)
                 .build())
 
@@ -64,7 +64,7 @@ class FanInventory(fanManager: FanManager) {
         val inventory = Bukkit.createInventory(Holder(), 9*6, EuroCup.miniMessage.deserialize("<red>Choose your favorite team!"))
         inventory.contents = this.inventory.contents.clone()
         inventory.setItem(53, ItemBuilder(Team.Cache.skull(player.team))
-            .name(Component.text(player.team.name, NamedTextColor.RED))
+            .name(EuroCup.miniMessage.deserialize(player.team.gradient + player.team.name + "</gradient>"))
             .lore(Component.text("Your current favorite team", NamedTextColor.GREEN)).build())
 
         return inventory
