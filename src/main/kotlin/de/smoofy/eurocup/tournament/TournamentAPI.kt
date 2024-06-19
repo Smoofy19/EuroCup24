@@ -42,7 +42,11 @@ class TournamentAPI {
         this.tabelTeamsCache = this.tabelTeams()
     }
 
-    fun match(matchID: Int): Match {
+    fun match(matchId: Int): Match? {
+        return this.matchesCache.find { it.matchId == matchId }
+    }
+
+    private fun createMatch(matchID: Int): Match {
         val jsonObject = JsonParser.parseString(this.request("getmatchdata/$matchID")) as JsonObject
 
         val matchResultsArray = jsonObject.get("matchResults").asJsonArray
@@ -90,29 +94,29 @@ class TournamentAPI {
         return match
     }
 
-    fun match(teamOne: Team, teamTwo: Team): Match {
+    fun createMatch(teamOne: Team, teamTwo: Team): Match {
         val jsonArray = JsonParser.parseString(this.request("getmatchdata/${teamOne.teamId}/${teamTwo.teamId}")) as JsonArray
 
-        return this.match(jsonArray.get(0).asJsonObject.get("matchID").asInt)
+        return this.createMatch(jsonArray.get(0).asJsonObject.get("matchID").asInt)
     }
 
     fun lastMatch(team: Team): Match {
         val jsonObject = JsonParser.parseString(this.request("getlastmatchbyleagueteam/4708/${team.teamId}")) as JsonObject
 
-        return this.match(jsonObject.get("matchID").asInt)
+        return this.createMatch(jsonObject.get("matchID").asInt)
     }
 
     fun nextMatch(team: Team): Match {
         val jsonObject = JsonParser.parseString(this.request("getnextmatchbyleagueteam/4708/${team.teamId}")) as JsonObject
 
-        return this.match(jsonObject.get("matchID").asInt)
+        return this.createMatch(jsonObject.get("matchID").asInt)
     }
 
     fun matches(): List<Match> {
         val list: MutableList<Match> = mutableListOf()
 
         for (matchID in this.matchIDs()) {
-            list.add(this.match(matchID))
+            list.add(this.createMatch(matchID))
         }
 
         return list
