@@ -10,6 +10,7 @@ import de.smoofy.eurocup.player.EuroCupPlayerManager
 import de.smoofy.eurocup.tablist.Tablist
 import de.smoofy.eurocup.tournament.TournamentAPI
 import de.smoofy.eurocup.tournament.match.MatchesCommand
+import de.smoofy.eurocup.tournament.match.MatchesListener
 import dev.httpmarco.evelon.MariaDbLayer
 import dev.httpmarco.evelon.Repository
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -90,6 +91,8 @@ class EuroCup : JavaPlugin() {
         pluginManager.registerEvents(PlayerMoveListener(), this)
         pluginManager.registerEvents(PlayerQuitListener(), this)
         pluginManager.registerEvents(ServerListPingListener(), this)
+
+        pluginManager.registerEvents(MatchesListener(), this)
     }
 
     companion object {
