@@ -1,6 +1,7 @@
 package de.smoofy.eurocup.commands
 
 import de.smoofy.eurocup.EuroCup
+import de.smoofy.eurocup.tournament.tabel.TabelInventory
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -35,7 +36,7 @@ class TopCommand : CommandExecutor, TabCompleter {
             return true
         }
         if (args[0].equals("tabel", ignoreCase = true)) {
-            //TODO
+            player.bukkitPlayer().openInventory(TabelInventory().inventory())
             return true
         }
         return true
