@@ -53,6 +53,10 @@ enum class Team(val teamId: Int, val countryCode: String, val gradient: String, 
             return entries.firstOrNull { it.name == name } ?: NONE
         }
 
+        fun code(code: String): Team {
+            return entries.firstOrNull { it.countryCode == code } ?: NONE
+        }
+
         fun team(id: Int): Team {
             return entries.firstOrNull { it.teamId == id } ?: NONE
         }
