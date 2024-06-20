@@ -141,8 +141,9 @@ class TournamentAPI {
                 jsonObject.get("lost").asInt
             ))
         }
+        list.removeIf { tabelTeam -> tabelTeam.team == Team.NONE }
 
-        return list
+        return list.sortedWith(compareBy<TabelTeam> { it.team.group }.thenByDescending { it.points }.thenByDescending { it.goalDifference })
     }
 
     private fun goalGetters(): List<GoalGetter> {
