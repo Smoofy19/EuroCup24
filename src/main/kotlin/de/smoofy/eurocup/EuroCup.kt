@@ -82,6 +82,8 @@ class EuroCup : JavaPlugin() {
         pluginManager.registerEvents(EntityDismountListener(), this)
         pluginManager.registerEvents(EntitySpawnListener(), this)
         pluginManager.registerEvents(FoodLevelChangeListener(), this)
+        pluginManager.registerEvents(InventoryClickListener(), this)
+        pluginManager.registerEvents(PlayerDropItemListener(), this)
         pluginManager.registerEvents(PlayerInteractListener(), this)
         pluginManager.registerEvents(PlayerJoinListener(), this)
         pluginManager.registerEvents(PlayerLoginListener(), this)
