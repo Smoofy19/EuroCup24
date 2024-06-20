@@ -1,4 +1,4 @@
-package de.smoofy.eurocup.tournament.objects
+package de.smoofy.eurocup.tournament.goalgetter
 
 
 /*
