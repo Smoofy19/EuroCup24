@@ -12,6 +12,7 @@ commands:
       - country
   fly:
     permission: eurocup.fly
+  match:
   matches:
   mute:
     permission: eurocup.mute

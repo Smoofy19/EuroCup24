@@ -11,6 +11,7 @@ import de.smoofy.eurocup.tablist.Tablist
 import de.smoofy.eurocup.tournament.TournamentAPI
 import de.smoofy.eurocup.tournament.goalgetter.GoalGetterInventory
 import de.smoofy.eurocup.tournament.goalgetter.GoalGetterListener
+import de.smoofy.eurocup.tournament.match.MatchCommand
 import de.smoofy.eurocup.tournament.match.MatchesCommand
 import de.smoofy.eurocup.tournament.match.MatchesListener
 import dev.httpmarco.evelon.MariaDbLayer
@@ -72,6 +73,7 @@ class EuroCup : JavaPlugin() {
         getCommand("ban")?.setExecutor(BanCommand())
         getCommand("fan")?.setExecutor(FanCommand())
         getCommand("fly")?.setExecutor(FlyCommand())
+        getCommand("match")?.setExecutor(MatchCommand())
         getCommand("matches")?.setExecutor(MatchesCommand())
         getCommand("mute")?.setExecutor(MuteCommand())
         getCommand("spawn")?.setExecutor(SpawnCommand())
