@@ -9,6 +9,8 @@ import de.smoofy.eurocup.player.EuroCupPlayer
 import de.smoofy.eurocup.player.EuroCupPlayerManager
 import de.smoofy.eurocup.tablist.Tablist
 import de.smoofy.eurocup.tournament.TournamentAPI
+import de.smoofy.eurocup.tournament.goalgetter.GoalGetterInventory
+import de.smoofy.eurocup.tournament.goalgetter.GoalGetterListener
 import de.smoofy.eurocup.tournament.match.MatchesCommand
 import de.smoofy.eurocup.tournament.match.MatchesListener
 import dev.httpmarco.evelon.MariaDbLayer
@@ -35,6 +37,8 @@ class EuroCup : JavaPlugin() {
     lateinit var tablist: Tablist
     lateinit var repository: Repository<EuroCupPlayer>
 
+    lateinit var goalGetterInventory: GoalGetterInventory
+
     val vanishedPlayers: MutableList<EuroCupPlayer> = mutableListOf()
 
     override fun onEnable() {
@@ -43,6 +47,8 @@ class EuroCup : JavaPlugin() {
         this.playerManager = EuroCupPlayerManager()
         this.tablist = Tablist()
         this.repository = Repository.build(EuroCupPlayer::class.java).withLayer(MariaDbLayer::class.java).build()
+
+        this.goalGetterInventory = GoalGetterInventory()
 
         Team.Cache().init()
 
@@ -70,6 +76,7 @@ class EuroCup : JavaPlugin() {
         getCommand("mute")?.setExecutor(MuteCommand())
         getCommand("spawn")?.setExecutor(SpawnCommand())
         getCommand("speed")?.setExecutor(SpeedCommand())
+        getCommand("top")?.setExecutor(TopCommand())
         getCommand("vanish")?.setExecutor(VanishCommand())
     }
 
@@ -91,6 +98,7 @@ class EuroCup : JavaPlugin() {
         pluginManager.registerEvents(PlayerQuitListener(), this)
         pluginManager.registerEvents(ServerListPingListener(), this)
 
+        pluginManager.registerEvents(GoalGetterListener(), this)
         pluginManager.registerEvents(MatchesListener(), this)
     }
 
