@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 
 /*
@@ -94,25 +95,13 @@ class TournamentAPI {
         return match
     }
 
-    fun createMatch(teamOne: Team, teamTwo: Team): Match {
-        val jsonArray = JsonParser.parseString(this.request("getmatchdata/${teamOne.teamId}/${teamTwo.teamId}")) as JsonArray
-
-        return this.createMatch(jsonArray.get(0).asJsonObject.get("matchID").asInt)
+    fun match(teamOne: Team, teamTwo: Team): Match? {
+        return this.matchesCache.stream().filter { match ->
+            match.teamOne == teamOne && match.teamTwo == teamTwo || match.teamOne == teamTwo && match.teamTwo == teamOne
+        }.findFirst().getOrNull()
     }
 
-    fun lastMatch(team: Team): Match {
-        val jsonObject = JsonParser.parseString(this.request("getlastmatchbyleagueteam/4708/${team.teamId}")) as JsonObject
-
-        return this.createMatch(jsonObject.get("matchID").asInt)
-    }
-
-    fun nextMatch(team: Team): Match {
-        val jsonObject = JsonParser.parseString(this.request("getnextmatchbyleagueteam/4708/${team.teamId}")) as JsonObject
-
-        return this.createMatch(jsonObject.get("matchID").asInt)
-    }
-
-    fun matches(): List<Match> {
+    private fun matches(): List<Match> {
         val list: MutableList<Match> = mutableListOf()
 
         for (matchID in this.matchIDs()) {
@@ -134,7 +123,7 @@ class TournamentAPI {
         return list
     }
 
-    fun tabelTeams(): List<TabelTeam> {
+    private fun tabelTeams(): List<TabelTeam> {
         val list: MutableList<TabelTeam> = mutableListOf()
         val jsonArray = JsonParser.parseString(this.request("getbltable/em/2024")) as JsonArray
 
