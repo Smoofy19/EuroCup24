@@ -4,8 +4,8 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import de.smoofy.eurocup.fan.Team
+import de.smoofy.eurocup.tournament.goalgetter.GoalGetter
 import de.smoofy.eurocup.tournament.match.Match
-import de.smoofy.eurocup.tournament.objects.GoalGetter
 import de.smoofy.eurocup.tournament.objects.TabelTeam
 import java.io.BufferedReader
 import java.io.InputStreamReader
