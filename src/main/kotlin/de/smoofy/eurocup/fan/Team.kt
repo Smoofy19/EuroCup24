@@ -78,7 +78,7 @@ enum class Team(val teamId: Int, val countryCode: String, val gradient: String, 
         fun init() {
             for (team in entries) {
                 skullCache[team] = SkullBuilder(team.texture)
-                    .name(team.gradient + team.name.replace("_", ""))
+                    .name(team.gradient + team.name.replace("_", " "))
             }
             for (group in Group.entries) {
                 groupCache[group] = SkullBuilder(group.texture)
