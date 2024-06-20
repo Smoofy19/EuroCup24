@@ -1,6 +1,6 @@
 package de.smoofy.eurocup.listener
 
-import de.smoofy.eurocup.EuroCup
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.server.ServerListPingEvent
@@ -29,6 +29,6 @@ class ServerListPingListener : Listener {
             1 -> "$motd\n       <aqua>/matches<gray>｜<aqua>/spawn<gray>｜<aqua>/speed<gray>｜<aqua>/fan<gray>｜<aqua>@fans<gray>"
             else -> "$motd\n                <#7289da>https://discord.gg/DUAWyCFZyQ"
         }
-        event.motd(EuroCup.miniMessage.deserialize(motd))
+        event.motd(MiniMessage.miniMessage().deserialize(motd))
     }
 }

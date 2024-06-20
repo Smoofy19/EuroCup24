@@ -1,6 +1,7 @@
 package de.smoofy.eurocup.commands
 
 import de.smoofy.eurocup.EuroCup
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -26,20 +27,20 @@ class SpeedCommand : CommandExecutor {
         }
         val player: Player = commandSender
         if (args.isEmpty()) {
-            player.sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Use<dark_gray>: ${EuroCup.GRADIENT}/speed <1-5>"))
+            player.sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Use<dark_gray>: ${EuroCup.GRADIENT}/speed <1-5>"))
             return true
         }
         val speed = args[0].toIntOrNull()
         if (speed == null || speed < 1 || speed > 5) {
-            player.sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Use<dark_gray>: ${EuroCup.GRADIENT}/speed <1-5>"))
+            player.sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Use<dark_gray>: ${EuroCup.GRADIENT}/speed <1-5>"))
             return true
         }
         if (player.isFlying) {
             player.flySpeed = speed * 0.2f
-            player.sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Your fly speed has been set to <red>$speed<gray>."))
+            player.sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Your fly speed has been set to <red>$speed<gray>."))
         } else {
             player.walkSpeed = speed * 0.2f
-            player.sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Your walk speed has been set to <red>$speed<gray>."))
+            player.sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Your walk speed has been set to <red>$speed<gray>."))
         }
         return true
     }

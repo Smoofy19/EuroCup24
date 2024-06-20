@@ -1,9 +1,9 @@
 package de.smoofy.eurocup.fan
 
-import de.smoofy.eurocup.EuroCup
 import de.smoofy.eurocup.builder.InventoryBuilder
 import de.smoofy.eurocup.player.EuroCupPlayer
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.Inventory
@@ -31,8 +31,7 @@ class FanInventory(fanManager: FanManager) {
         var slot = 0
         Team.Group.entries.forEach { group ->
             if (group != Team.Group.NONE) {
-                inventory.setItem(slot++, Team.Cache.group(group)
-                    .name("<yellow>Group ${group.name}").build())
+                inventory.setItem(slot++, Team.Cache.group(group).build())
             }
         }
 
@@ -43,7 +42,6 @@ class FanInventory(fanManager: FanManager) {
                 slot = 8
             }
             inventory.setItem(slot, Team.Cache.skull(team)
-                .name(team.gradient + team.name)
                 .data(fanManager.key, PersistentDataType.STRING, team.name)
                 .build())
 
@@ -62,11 +60,10 @@ class FanInventory(fanManager: FanManager) {
     }
 
     fun inventory(player: EuroCupPlayer): Inventory {
-        val inventory = Bukkit.createInventory(Holder(), 9*6, EuroCup.miniMessage.deserialize("<red>Choose your favorite team!"))
+        val inventory = Bukkit.createInventory(Holder(), 9*6, MiniMessage.miniMessage().deserialize("<red>Choose your favorite team!"))
         inventory.contents = this.inventory.contents.clone()
         inventory.setItem(53, Team.Cache.skull(player.team)
-            .name(player.team.gradient + player.team.name)
-            .lore("<green>Your current favorite team", true).build())
+            .lore("<green>Your current favorite team").build())
 
         return inventory
     }

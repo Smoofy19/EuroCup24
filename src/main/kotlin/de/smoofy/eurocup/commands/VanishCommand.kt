@@ -2,6 +2,7 @@ package de.smoofy.eurocup.commands
 
 import de.smoofy.eurocup.EuroCup
 import de.smoofy.eurocup.player.Rank
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -33,11 +34,11 @@ class VanishCommand : CommandExecutor {
         if (EuroCup.INSTANCE.vanishedPlayers.contains(player)) {
             EuroCup.INSTANCE.vanishedPlayers.remove(player)
             Bukkit.getOnlinePlayers().forEach { all -> all.showPlayer(EuroCup.INSTANCE, player.bukkitPlayer()) }
-            player.bukkitPlayer().sendMessage(EuroCup.miniMessage.deserialize("${EuroCup.PREFIX} <red>Du bist nun nicht mehr im Vanish!"))
+            player.bukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize("${EuroCup.PREFIX} <red>Du bist nun nicht mehr im Vanish!"))
         } else {
             EuroCup.INSTANCE.vanishedPlayers.add(player)
             Bukkit.getOnlinePlayers().forEach { all -> all.hidePlayer(EuroCup.INSTANCE, player.bukkitPlayer()) }
-            player.bukkitPlayer().sendMessage(EuroCup.miniMessage.deserialize("${EuroCup.PREFIX} <green>Du bist nun im Vanish!"))
+            player.bukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize("${EuroCup.PREFIX} <green>Du bist nun im Vanish!"))
         }
         return true
     }

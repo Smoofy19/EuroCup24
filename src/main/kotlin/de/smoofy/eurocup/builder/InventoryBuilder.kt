@@ -1,6 +1,6 @@
 package de.smoofy.eurocup.builder
 
-import de.smoofy.eurocup.EuroCup
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
@@ -22,7 +22,7 @@ class InventoryBuilder(holder: InventoryHolder?, size: Int, title: String) {
     val inventory: Inventory
 
     init {
-        this.inventory = Bukkit.createInventory(holder, size, EuroCup.miniMessage.deserialize(title))
+        this.inventory = Bukkit.createInventory(holder, size, MiniMessage.miniMessage().deserialize(title))
     }
 
     fun fill(item: ItemBuilder): InventoryBuilder {

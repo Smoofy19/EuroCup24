@@ -5,6 +5,7 @@ import de.smoofy.eurocup.player.Rank
 import de.smoofy.eurocup.utils.UUIDFetcher
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -34,19 +35,19 @@ class BanCommand : CommandExecutor {
             return true
         }
         if (args.isEmpty()) {
-            player.bukkitPlayer().sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Verwende<dark_gray>: ${EuroCup.GRADIENT}/ban <Spieler>"))
+            player.bukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Verwende<dark_gray>: ${EuroCup.GRADIENT}/ban <Spieler>"))
             return true
         }
         val name = args[0]
         val uuid = UUIDFetcher.uuid(name)
         if (uuid == null) {
-            player.bukkitPlayer().sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Der Spieler <green>$name <gray>existiert nicht."))
+            player.bukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Der Spieler <green>$name <gray>existiert nicht."))
             return true
         }
         if (EuroCup.INSTANCE.playerManager.exists(uuid)) {
             val target = EuroCup.INSTANCE.playerManager.euroCupPlayer(uuid)
             target.banned = !target.banned
-            player.bukkitPlayer().sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Der Spieler <green>${target.name} <gray>wurde ${if (target.banned) "<red>gebannt" else "<green>entbannt"}."))
+            player.bukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Der Spieler <green>${target.name} <gray>wurde ${if (target.banned) "<red>gebannt" else "<green>entbannt"}."))
             EuroCup.INSTANCE.playerManager.update(target)
             if (Bukkit.getPlayer(uuid) != null) {
                 target.bukkitPlayer().kick(Component.text("You have been banned from the server!", NamedTextColor.RED))

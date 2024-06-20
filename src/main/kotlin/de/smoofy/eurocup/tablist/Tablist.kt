@@ -6,6 +6,7 @@ import de.smoofy.eurocup.fan.Team
 import de.smoofy.eurocup.player.EuroCupPlayer
 import de.smoofy.eurocup.player.Rank
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.scoreboard.Scoreboard
 
 /*
@@ -44,7 +45,7 @@ class Tablist {
             if (team == null) {
                 team = scoreboard.registerNewTeam(teamName)
             }
-            var suffix = EuroCup.miniMessage.deserialize(" <gray>[<red>${onlinePlayer.team.countryCode}<gray>]")
+            var suffix = MiniMessage.miniMessage().deserialize(" <gray>[<red>${onlinePlayer.team.countryCode}<gray>]")
             if (onlinePlayer.team == Team.NONE) {
                 suffix = Component.empty()
             }

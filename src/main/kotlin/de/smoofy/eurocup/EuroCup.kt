@@ -13,7 +13,6 @@ import de.smoofy.eurocup.tournament.match.MatchesCommand
 import de.smoofy.eurocup.tournament.match.MatchesListener
 import dev.httpmarco.evelon.MariaDbLayer
 import dev.httpmarco.evelon.Repository
-import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.GameRule
 import org.bukkit.plugin.java.JavaPlugin
@@ -40,8 +39,6 @@ class EuroCup : JavaPlugin() {
 
     override fun onEnable() {
         INSTANCE = this
-
-        miniMessage = MiniMessage.miniMessage()
 
         this.playerManager = EuroCupPlayerManager()
         this.tablist = Tablist()
@@ -97,7 +94,6 @@ class EuroCup : JavaPlugin() {
 
     companion object {
         lateinit var INSTANCE: EuroCup
-        lateinit var miniMessage: MiniMessage
         lateinit var tournamentAPI: TournamentAPI
         var GRADIENT = "<gradient:#000000:#FF0000:#FFCC00>"
         var PREFIX = "<dark_gray>[${GRADIENT}EuroCup</gradient><dark_gray>] "

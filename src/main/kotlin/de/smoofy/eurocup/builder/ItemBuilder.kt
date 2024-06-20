@@ -1,8 +1,8 @@
 package de.smoofy.eurocup.builder
 
-import de.smoofy.eurocup.EuroCup
 import de.smoofy.eurocup.utils.Keys
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
@@ -34,7 +34,7 @@ class ItemBuilder(material: Material) {
     constructor(itemStack: ItemStack) : this(itemStack.type)
 
     fun name(name: String): ItemBuilder {
-        this.itemMeta.displayName(EuroCup.miniMessage.deserialize(name))
+        this.itemMeta.displayName(MiniMessage.miniMessage().deserialize(name))
         return this
     }
 
@@ -54,7 +54,7 @@ class ItemBuilder(material: Material) {
         if (lore == null) {
             return this
         }
-        lore.add(EuroCup.miniMessage.deserialize(line))
+        lore.add(MiniMessage.miniMessage().deserialize(line))
         this.itemMeta.lore(lore)
         return this
     }

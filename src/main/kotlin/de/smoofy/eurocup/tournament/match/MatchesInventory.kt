@@ -32,8 +32,7 @@ class MatchesInventory(private val id: Int) {
         val group = this.group(id)
 
         inventory.fill(ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).noName())
-        inventory.set(Team.Cache.group(group)
-            .name("<yellow>Group ${group.name}"), 4)
+        inventory.set(Team.Cache.group(group), 4)
 
         this.setMatches(inventory, group)
 
@@ -60,17 +59,15 @@ class MatchesInventory(private val id: Int) {
         EuroCup.tournamentAPI.matchesCache.filter { match -> match.teamOne.group == group }.forEach { match ->
             var slot = slots[currentSlot++]
             inventory.set(this.matchDayItem(match), slot++)
-            inventory.set(Team.Cache.skull(match.teamOne)
-                .name("${match.teamOne.gradient}${match.teamOne.name}</gradient>"), slot++)
-            inventory.set(Team.Cache.skull(match.teamTwo)
-                .name("${match.teamTwo.gradient}${match.teamTwo.name}</gradient>"), slot++)
+            inventory.set(Team.Cache.skull(match.teamOne), slot++)
+            inventory.set(Team.Cache.skull(match.teamTwo), slot++)
             inventory.set(ItemBuilder(Material.PAPER).name("<green>To the game")
                 .data(Keys.MATCH, PersistentDataType.INTEGER, match.matchId), slot)
         }
     }
 
-    private fun matchDayItem(match: Match): ItemBuilder {
-        val item = ItemBuilder(SkullBuilder(Skulls.FOOTBALL.texture).build())
+    private fun matchDayItem(match: Match): SkullBuilder {
+        val item = SkullBuilder(Skulls.FOOTBALL.texture)
             .name("<green>${this.matchDay(match.phase)}")
             .lore("<gold>${match.time}")
 

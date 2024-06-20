@@ -3,6 +3,7 @@ package de.smoofy.eurocup.commands
 import de.smoofy.eurocup.EuroCup
 import de.smoofy.eurocup.player.Rank
 import de.smoofy.eurocup.utils.UUIDFetcher
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -31,19 +32,19 @@ class MuteCommand : CommandExecutor {
             return true
         }
         if (args.isEmpty()) {
-            player.bukkitPlayer().sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Verwende<dark_gray>: ${EuroCup.GRADIENT}/mute <Spieler>"))
+            player.bukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Verwende<dark_gray>: ${EuroCup.GRADIENT}/mute <Spieler>"))
             return true
         }
         val name = args[0]
         val uuid = UUIDFetcher.uuid(name)
         if (uuid == null) {
-            player.bukkitPlayer().sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Der Spieler <green>$name <gray>existiert nicht."))
+            player.bukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Der Spieler <green>$name <gray>existiert nicht."))
             return true
         }
         if (EuroCup.INSTANCE.playerManager.exists(uuid)) {
             val target = EuroCup.INSTANCE.playerManager.euroCupPlayer(uuid)
             target.muted = !target.muted
-            player.bukkitPlayer().sendMessage(EuroCup.miniMessage.deserialize(EuroCup.PREFIX + "<gray>Der Spieler <green>${target.name} <gray>wurde ${if (target.muted) "<red>gemuted" else "<green>entmuted"}."))
+            player.bukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Der Spieler <green>${target.name} <gray>wurde ${if (target.muted) "<red>gemuted" else "<green>entmuted"}."))
             EuroCup.INSTANCE.playerManager.update(target)
         } else {
             EuroCup.INSTANCE.playerManager.init(uuid, false, true)
