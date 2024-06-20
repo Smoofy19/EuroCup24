@@ -6,7 +6,7 @@ import com.google.gson.JsonParser
 import de.smoofy.eurocup.fan.Team
 import de.smoofy.eurocup.tournament.goalgetter.GoalGetter
 import de.smoofy.eurocup.tournament.match.Match
-import de.smoofy.eurocup.tournament.objects.TabelTeam
+import de.smoofy.eurocup.tournament.tabel.TabelTeam
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
