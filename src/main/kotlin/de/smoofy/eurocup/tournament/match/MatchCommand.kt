@@ -8,6 +8,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
 
@@ -22,7 +23,7 @@ import org.bukkit.entity.Player
 /**
 
  */
-class MatchCommand : CommandExecutor {
+class MatchCommand : CommandExecutor, TabCompleter {
 
     override fun onCommand(commandSender: CommandSender, p1: Command, p2: String, args: Array<out String>): Boolean {
         if (commandSender !is Player) {
@@ -43,5 +44,37 @@ class MatchCommand : CommandExecutor {
         }
         player.bukkitPlayer().openInventory(MatchInventory(match).inventory())
         return true
+    }
+
+    override fun onTabComplete(commandSender: CommandSender, p1: Command, p2: String, args: Array<out String>): MutableList<String> {
+        if (commandSender !is Player) {
+            return mutableListOf()
+        }
+        val list: MutableList<String> = mutableListOf()
+        if (args.size == 1) {
+            for (team in Team.entries) {
+                list.add(team.countryCode)
+            }
+            return list
+        }
+        if (args.size == 2) {
+            for (team in this.opponents(Team.code(args[0]))) {
+                list.add(team.countryCode)
+            }
+            return list
+        }
+        return mutableListOf()
+    }
+
+    private fun opponents(team: Team): List<Team> {
+        val list: MutableList<Team> = mutableListOf()
+        EuroCup.tournamentAPI.matchesCache.stream().filter { match -> match.teamOne == team || match.teamTwo == team }.forEach { match ->
+            if (match.teamOne == team) {
+                list.add(match.teamTwo)
+            } else {
+                list.add(match.teamOne)
+            }
+        }
+        return list
     }
 }

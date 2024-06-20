@@ -4,6 +4,7 @@ import de.smoofy.eurocup.EuroCup
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
 
@@ -18,7 +19,7 @@ import org.bukkit.entity.Player
 /**
 
  */
-class TopCommand : CommandExecutor {
+class TopCommand : CommandExecutor, TabCompleter {
 
     override fun onCommand(commandSender: CommandSender, p1: Command, p2: String, args: Array<out String>): Boolean {
         if (commandSender !is Player) {
@@ -38,5 +39,15 @@ class TopCommand : CommandExecutor {
             return true
         }
         return true
+    }
+
+    override fun onTabComplete(commandSender: CommandSender, p1: Command, p2: String, args: Array<out String>): MutableList<String> {
+        if (commandSender !is Player) {
+            return mutableListOf()
+        }
+        if (args.size == 1) {
+            return mutableListOf("scorer", "tabel")
+        }
+        return mutableListOf()
     }
 }

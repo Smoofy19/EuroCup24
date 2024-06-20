@@ -54,6 +54,7 @@ class EuroCup : JavaPlugin() {
         Team.Cache().init()
 
         this.registerCommands()
+        this.registerTabCompleter()
         this.registerListener()
 
         this.server.messenger.registerIncomingPluginChannel(this, "labymod3:main", PluginMessageReceivedListener())
@@ -80,6 +81,12 @@ class EuroCup : JavaPlugin() {
         getCommand("speed")?.setExecutor(SpeedCommand())
         getCommand("top")?.setExecutor(TopCommand())
         getCommand("vanish")?.setExecutor(VanishCommand())
+    }
+
+    private fun registerTabCompleter() {
+        getCommand("match")?.tabCompleter = MatchCommand()
+        getCommand("top")?.tabCompleter = TopCommand()
+        getCommand("speed")?.tabCompleter = SpeedCommand()
     }
 
     private fun registerListener() {
