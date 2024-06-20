@@ -1,7 +1,6 @@
 package de.smoofy.eurocup.builder
 
 import de.smoofy.eurocup.utils.Keys
-import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -31,8 +30,6 @@ class ItemBuilder(material: Material) {
         this.itemMeta = itemStack.itemMeta
     }
 
-    constructor(itemStack: ItemStack) : this(itemStack.type)
-
     fun name(name: String): ItemBuilder {
         this.itemMeta.displayName(MiniMessage.miniMessage().deserialize(name))
         return this
@@ -40,28 +37,6 @@ class ItemBuilder(material: Material) {
 
     fun noName(): ItemBuilder {
         return this.name("")
-    }
-
-    fun lore(line: String): ItemBuilder {
-        return this.lore(line, false)
-    }
-
-    fun lore(line: String, clear: Boolean): ItemBuilder {
-        var lore: MutableList<Component>? = mutableListOf()
-        if (!clear && this.itemMeta.hasLore()) {
-            lore = this.itemMeta.lore()
-        }
-        if (lore == null) {
-            return this
-        }
-        lore.add(MiniMessage.miniMessage().deserialize(line))
-        this.itemMeta.lore(lore)
-        return this
-    }
-
-    fun lore(vararg lore: String): ItemBuilder {
-        lore.forEach { this.lore(it) }
-        return this
     }
 
     fun <P, C : Any> data(key: NamespacedKey, type: PersistentDataType<P, C>, value: C): ItemBuilder {
