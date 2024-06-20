@@ -43,19 +43,21 @@ class MatchInventory(private val match: Match) {
             ItemBuilder(Material.RED_STAINED_GLASS_PANE).name("<red>Looser!")
         )
         val draw = ItemBuilder(Material.ORANGE_STAINED_GLASS_PANE).name("<gold>Draw!")
-        if (this.winner() == match.teamOne) {
-            for ((slot, item) in items.withIndex()) {
-                inventory.set(item, slots[slot])
+        try {
+            if (this.winner() == match.teamOne) {
+                for ((slot, item) in items.withIndex()) {
+                    inventory.set(item, slots[slot])
+                }
+            } else if (this.winner() == match.teamTwo) {
+                for ((slot, item) in items.reversed().withIndex()) {
+                    inventory.set(item, slots[slot])
+                }
+            } else {
+                for (slot in slots) {
+                    inventory.set(draw, slot)
+                }
             }
-        } else if (this.winner() == match.teamTwo) {
-            for ((slot, item) in items.reversed().withIndex()) {
-                inventory.set(item, slots[slot])
-            }
-        } else {
-            for (slot in slots) {
-                inventory.set(draw, slot)
-            }
-        }
+        }catch (ignored: IndexOutOfBoundsException) {}
 
         inventory.set(info
             .name("<yellow>Match Info")
