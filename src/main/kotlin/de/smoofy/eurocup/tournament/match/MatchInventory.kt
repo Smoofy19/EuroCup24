@@ -24,9 +24,10 @@ import org.bukkit.inventory.InventoryHolder
  */
 class MatchInventory(private val match: Match) {
 
-    private val football = SkullBuilder(Skulls.FOOTBALL.texture).build()
-    private val info = SkullBuilder(Skulls.INFO.texture).build()
-    private val result = SkullBuilder(Skulls.RESULT.texture).build()
+    private val football = SkullBuilder(Skulls.FOOTBALL.texture)
+    private val info = SkullBuilder(Skulls.INFO.texture)
+    private val city = SkullBuilder(Skulls.CITY.texture)
+    private val result = SkullBuilder(Skulls.RESULT.texture)
 
     fun inventory(): Inventory {
         val inventory = InventoryBuilder(Holder(), this.calculateSize()*9, "")
@@ -56,15 +57,15 @@ class MatchInventory(private val match: Match) {
             }
         }
 
-        inventory.set(ItemBuilder(info)
+        inventory.set(info
             .name("<yellow>Match Info")
             .lore("<gray>Kickoff<dark_gray>: <yellow>${match.time}",
                 "<gray>Matchday<dark_gray>: <yellow>${this.matchDay(match.phase)}"), 3)
-        inventory.set(ItemBuilder(result)
+        inventory.set(result
             .name("<yellow>Result")
             .lore("<gray>Half time<dark_gray>: <yellow>${match.matchResult.halfTimeResult}",
                 "<gray>End<dark_gray>: <yellow>${match.matchResult.endResult}"), 4)
-        inventory.set(ItemBuilder(info)
+        inventory.set(city
             .name("<yellow>Location info")
             .lore("<gray>City<dark_gray>: <yellow>${match.location.city}",
                 "<gray>Stadium<dark_gray>: <yellow>${match.location.stadium}",
@@ -72,7 +73,8 @@ class MatchInventory(private val match: Match) {
 
         var slot = 27
         for (goal in this.goals()) {
-            inventory.set(ItemBuilder(football)
+            football.clearLore()
+            inventory.set(football
                 .name(goal.scorer)
                 .lore("<gray>Match minute<dark_gray>: <yellow>${goal.minute}",
                     "<gray>Score<dark_gray>: ${match.teamOne.gradient}${goal.scoreTeam1}</gradient><dark_gray>:" +
