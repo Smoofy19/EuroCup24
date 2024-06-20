@@ -14,6 +14,7 @@ import de.smoofy.eurocup.tournament.goalgetter.GoalGetterListener
 import de.smoofy.eurocup.tournament.match.MatchCommand
 import de.smoofy.eurocup.tournament.match.MatchesCommand
 import de.smoofy.eurocup.tournament.match.MatchesListener
+import de.smoofy.eurocup.tournament.tabel.TabelListener
 import dev.httpmarco.evelon.MariaDbLayer
 import dev.httpmarco.evelon.Repository
 import org.bukkit.Bukkit
@@ -109,6 +110,7 @@ class EuroCup : JavaPlugin() {
 
         pluginManager.registerEvents(GoalGetterListener(), this)
         pluginManager.registerEvents(MatchesListener(), this)
+        pluginManager.registerEvents(TabelListener(), this)
     }
 
     companion object {
