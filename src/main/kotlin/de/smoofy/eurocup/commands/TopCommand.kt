@@ -32,7 +32,7 @@ class TopCommand : CommandExecutor, TabCompleter {
             return true
         }
         if (args[0].equals("scorer", ignoreCase = true)) {
-            player.bukkitPlayer().openInventory(EuroCup.INSTANCE.goalGetterInventory.inventory(1))
+            player.bukkitPlayer().openInventory(EuroCup.INSTANCE.goalGetterInventory.inventory(1, true))
             return true
         }
         if (args[0].equals("tabel", ignoreCase = true)) {

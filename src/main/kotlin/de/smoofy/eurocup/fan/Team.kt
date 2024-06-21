@@ -91,7 +91,9 @@ enum class Team(val teamId: Int, val countryCode: String, val gradient: String, 
             private val groupCache: MutableMap<Group, SkullBuilder> = mutableMapOf()
 
             fun skull(team: Team): SkullBuilder {
-                return skullCache[team]!!
+                val skull = skullCache[team]!!
+                skull.clearLore()
+                return skull
             }
 
             fun group(group: Group): SkullBuilder {

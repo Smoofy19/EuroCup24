@@ -44,7 +44,7 @@ class GoalGetterListener : Listener {
         val item = event.currentItem ?: return
         val page = this.page(item)
         if (page != -1) {
-            player.openInventory(EuroCup.INSTANCE.goalGetterInventory.inventory(page))
+            player.openInventory(EuroCup.INSTANCE.goalGetterInventory.inventory(page, false))
             return
         }
     }

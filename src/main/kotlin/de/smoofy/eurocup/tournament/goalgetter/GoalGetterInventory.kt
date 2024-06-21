@@ -36,7 +36,12 @@ class GoalGetterInventory {
     private var currentRankingPos = 1
     private var nextRankingPos = 1
 
-    fun inventory(page: Int): Inventory {
+    fun inventory(page: Int, firstPage: Boolean): Inventory {
+        if (firstPage) {
+            this.currentRankingPos = 1
+            this.nextRankingPos = 1
+        }
+
         val size = if (this.goalGetters().size > 45) 54 else this.calculateSize()
         val inventory = InventoryBuilder(Holder(), size, "<yellow>Top Scorer")
 
@@ -50,9 +55,9 @@ class GoalGetterInventory {
                     "<gray>Goals<dark_gray>: <yellow>${goalGetters[i].goals}"), slot
             )
 
-            nextRankingPos++
+            this.nextRankingPos++
             if (goalGetters.getOrNull(i + 1) != null && goalGetters[i].goals != goalGetters[i + 1].goals) {
-                currentRankingPos = nextRankingPos
+                this.currentRankingPos = this.nextRankingPos
             }
         }
 
