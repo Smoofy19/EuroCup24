@@ -2,6 +2,7 @@ package de.smoofy.eurocup.listener
 
 import de.smoofy.eurocup.EuroCup
 import de.smoofy.eurocup.builder.ItemBuilder
+import de.smoofy.eurocup.player.Rank
 import de.smoofy.eurocup.utils.Keys
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -38,7 +39,9 @@ class PlayerJoinListener : Listener {
         EuroCup.INSTANCE.tablist.set(player)
 
         Bukkit.getScheduler().runTaskLater(EuroCup.INSTANCE, { ->
-            if (!player.labyMod) player.bukkitPlayer().kick(Component.text("You have to use LabyMod to play on this server!", NamedTextColor.RED), PlayerKickEvent.Cause.PLUGIN)
+            if (!player.labyMod && !player.hasPriority(Rank.ADMIN.priority)) {
+                player.bukkitPlayer().kick(Component.text("You have to use LabyMod to play on this server!", NamedTextColor.RED), PlayerKickEvent.Cause.PLUGIN)
+            }
         }, 20L)
 
         player.bukkitPlayer().inventory.clear()
