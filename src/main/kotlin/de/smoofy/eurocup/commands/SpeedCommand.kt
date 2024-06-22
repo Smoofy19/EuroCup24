@@ -37,7 +37,7 @@ class SpeedCommand : CommandExecutor, TabCompleter {
             return true
         }
         if (player.isFlying) {
-            player.flySpeed = speed * 0.2f
+            player.flySpeed = speed * 0.1f
             player.sendMessage(MiniMessage.miniMessage().deserialize(EuroCup.PREFIX + "<gray>Your fly speed has been set to <red>$speed<gray>."))
         } else {
             player.walkSpeed = speed * 0.2f
