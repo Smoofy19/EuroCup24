@@ -1,9 +1,6 @@
-import java.util.*
-
 plugins {
     kotlin("jvm") version "1.9.21"
     id("io.papermc.paperweight.userdev") version "1.7.1"
-    id("xyz.jpenilla.run-paper") version "2.3.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -33,26 +30,10 @@ tasks {
     }
 
     shadowJar {
-        archiveClassifier.set("")
+        archiveFileName.set("EuroCup24.jar")
     }
 
     assemble {
         dependsOn(reobfJar)
-    }
-
-    runServer {
-        dependsOn("copyToServer")
-        minecraftVersion("1.20.4")
-    }
-
-    register<Copy>("copyToServer") {
-        val props = Properties()
-        val propFile = file("build.properties")
-        if (!propFile.exists()) propFile.createNewFile()
-        file("build.properties").reader().let { props.load(it) }
-        val path = props.getProperty("targetDir") ?: ""
-        if (path.isEmpty()) throw RuntimeException("targetDir is not set in build.properties")
-        from(jar)
-        destinationDir = File(path)
     }
 }
