@@ -1,5 +1,10 @@
 # EuroCup24
 
+### Attention!
+This plugin has a few bugs that will not be fixed in the future.
+
+---
+
 Welcome to the EuroCup24 repository! This plugin provides comprehensive information on the 2024 European Championship, including the game plan, tables, top scorers, and more.
 
 ## Table of Contents
